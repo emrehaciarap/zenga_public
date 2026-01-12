@@ -228,20 +228,34 @@ Zenga Yapım bugün, Selahattin Yusuf'un kaleme aldığı "Eve Dönemezsin" roma
     },
     { 
       id: 4, 
-      year: 2024, 
-      title: "İnfial", 
-      description: "Tarih TV için 110 bölümlük kapsamlı belgesel serisi tamamlandı.", 
+      year: "2023-2024", 
+      title: "Birinci Yüzyıl", 
+      description: "50 bölüm belgesel serisi.", 
       type: "milestone" 
     },
     { 
       id: 5, 
+      year: "2024-2025", 
+      title: "Kırılma Anı", 
+      description: "50 bölüm belgesel serisi.", 
+      type: "milestone" 
+    },
+    { 
+      id: 6, 
+      year: 2025, 
+      title: "Eski Yeni Hayat", 
+      description: "10 bölüm belgesel serisi.", 
+      type: "milestone" 
+    },
+    { 
+      id: 7, 
       year: 2025, 
       title: "Mecelle Medeniyeti", 
       description: "Diyanet TV için 60 bölümlük belgesel serisi yayınlandı.", 
       type: "milestone" 
     },
     { 
-      id: 6, 
+      id: 8, 
       year: 2026, 
       title: "Eve Dönemezsin Dizisi", 
       description: "TRT Tabii platformu için Selahattin Yusuf'un romanından dizi uyarlaması başladı.", 
