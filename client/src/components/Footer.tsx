@@ -13,6 +13,19 @@ const footerLinks = [
 export default function Footer() {
   const { data: contactInfo } = trpc.contact.info.useQuery();
 
+  // Zenga sabit iletişim bilgileri
+  const defaultContactInfo = {
+    address: "Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4\nÜsküdar / İSTANBUL",
+    phone: "+90 551 163 35 52",
+    email: "info@zengafilm.com.tr",
+  };
+
+  const displayInfo = {
+    address: contactInfo?.address || defaultContactInfo.address,
+    phone: contactInfo?.phone || defaultContactInfo.phone,
+    email: contactInfo?.email || defaultContactInfo.email,
+  };
+
   const socialLinks = [
     { icon: Facebook, href: contactInfo?.facebook, label: "Facebook" },
     { icon: Instagram, href: contactInfo?.instagram, label: "Instagram" },
@@ -64,20 +77,18 @@ export default function Footer() {
               İletişim
             </h4>
             <ul className="space-y-2 text-sm text-background/70">
-              {contactInfo?.address && (
-                <li className="leading-relaxed">{contactInfo.address}</li>
-              )}
-              {contactInfo?.phone && <li>{contactInfo.phone}</li>}
-              {contactInfo?.email && (
-                <li>
-                  <a
-                    href={`mailto:${contactInfo.email}`}
-                    className="hover:text-background transition-colors"
-                  >
-                    {contactInfo.email}
-                  </a>
-                </li>
-              )}
+              <li className="leading-relaxed whitespace-pre-line">
+                {displayInfo.address}
+              </li>
+              <li>{displayInfo.phone}</li>
+              <li>
+                <a
+                  href={`mailto:${displayInfo.email}`}
+                  className="hover:text-background transition-colors"
+                >
+                  {displayInfo.email}
+                </a>
+              </li>
             </ul>
 
             {/* Social Links */}

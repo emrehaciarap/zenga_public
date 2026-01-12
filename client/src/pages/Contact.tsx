@@ -69,7 +69,8 @@ export default function Contact() {
   const zengaContactInfo = {
     address: "Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4\nÜsküdar / İSTANBUL",
     phone: "+90 551 163 35 52",
-    email: "mahmutislam@gmail.com",
+    email: "info@zengafilm.com.tr", // Görünen email
+    formEmail: "mahmutislam@gmail.com", // Form'un gideceği email
     mapLat: "41.0214",
     mapLng: "29.0270",
   };
