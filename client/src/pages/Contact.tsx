@@ -65,16 +65,16 @@ export default function Contact() {
     if (isSubmitted) setIsSubmitted(false);
   };
 
-  // Default contact info
-  const defaultContactInfo = {
-    address: "Levent, İstanbul, Türkiye",
+  // Zenga İletişim Bilgileri
+  const zengaContactInfo = {
+    address: "Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4\nÜsküdar / İSTANBUL",
     phone: "+90 212 XXX XX XX",
-    email: "info@zenga.com.tr",
-    mapLat: "41.0821",
-    mapLng: "29.0109",
+    email: "info@zengafilm.com.tr",
+    mapLat: "41.0214",
+    mapLng: "29.0270",
   };
 
-  const displayInfo = contactInfo || defaultContactInfo;
+  const displayInfo = contactInfo || zengaContactInfo;
 
   const socialLinks = [
     { icon: Facebook, href: contactInfo?.facebook, label: "Facebook" },
@@ -84,10 +84,8 @@ export default function Contact() {
     { icon: Linkedin, href: contactInfo?.linkedin, label: "LinkedIn" },
   ].filter((link) => link.href);
 
-  // Google Maps Embed URL with grayscale styling
-  const mapUrl = displayInfo.mapLat && displayInfo.mapLng
-    ? `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.5!2d${displayInfo.mapLng}!3d${displayInfo.mapLat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA0JzU1LjYiTiAyOcKwMDAnMzkuMiJF!5e0!3m2!1str!2str!4v1234567890`
-    : null;
+  // Google Maps Embed URL - Kuzguncuk, Üsküdar coordinates
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.2!2d${displayInfo.mapLng}!3d${displayInfo.mapLat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAxJzE3LjAiTiAyOcKwMDEnMzcuMiJF!5e0!3m2!1str!2str!4v1234567890`;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -227,19 +225,17 @@ export default function Contact() {
 
                 <div className="space-y-6">
                   {/* Address */}
-                  {displayInfo.address && (
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
-                        <MapPin className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Adres</h4>
-                        <p className="text-muted-foreground mt-1">
-                          {displayInfo.address}
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
+                      <MapPin className="w-5 h-5" />
                     </div>
-                  )}
+                    <div>
+                      <h4 className="font-semibold">Adres</h4>
+                      <p className="text-muted-foreground mt-1 whitespace-pre-line">
+                        {displayInfo.address}
+                      </p>
+                    </div>
+                  </div>
 
                   {/* Phone */}
                   {displayInfo.phone && (
@@ -302,22 +298,16 @@ export default function Contact() {
                 {/* Map */}
                 <div className="mt-8">
                   <div className="aspect-video bg-secondary grayscale-map overflow-hidden">
-                    {mapUrl ? (
-                      <iframe
-                        src={mapUrl}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Zenga Konum"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <MapPin className="w-12 h-12 text-muted-foreground/50" />
-                      </div>
-                    )}
+                    <iframe
+                      src={mapUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Zenga Yapım Konum - Kuzguncuk, Üsküdar"
+                    />
                   </div>
                 </div>
               </div>
