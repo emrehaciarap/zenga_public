@@ -1,83 +1,60 @@
-import { useState, useEffect } from "react";
-import { Film, Clock, Bell, Check, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { trpc } from "@/lib/trpc";
+import { Film, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { toast } from "sonner";
 
-// Countdown Timer Component
-function CountdownTimer({ targetDate }: { targetDate: Date }) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+// Pek Yakında Projeler
+const upcomingProjects = [
+  {
+    id: 1,
+    title: "EVE DÖNEMEZSİN",
+    format: "Mini Dizi (6 Bölüm)",
+    platform: "TRT Tabii",
+    director: "George Ovashvili",
+    writer: "Mahmut Fazıl Coşkun",
+    source: "Selahattin Yusuf'un aynı adlı romanından uyarlanmıştır",
+    tagline: "SARP DAĞLARIN ARASINDA BİR EDEBİYAT VE UMUT SERÜVENİ",
+    description: `Kristal Küre ödüllü Gürcü yönetmen George Ovashvili'nin görsel şiirselliği ile usta yönetmen ve senarist Mahmut Fazıl Coşkun'un kalemini buluşturan "Eve Dönemezsin", 1980'lerin Türkiye'sine sarsıcı bir bakış sunuyor.`,
+    synopsis: `1980'li yılların ortasında, Trabzon'un sarp ve sisli bir dağ köyünde geçen hikaye; hayatın sertliğine karşı hayallerini kitaplarla korumaya çalışan Yusuf'un dünyasına odaklanıyor. İlkokul dördüncü sınıfta okuldan alınan Yusuf, 1983 yılında çıkarılan bir yasayla jandarma gözetiminde okula geri dönmek zorunda kalır.
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = targetDate.getTime() - new Date().getTime();
+Ancak bu dönüş, sadece yarım kalan bir eğitimi tamamlamak değildir. Yusuf için okul; çocukluk aşkı Selvi'ye yakın olma çabası, ideolojik dogmalarla örülü bir sınıfta var olma mücadelesi ve elinde bir tabure, cebinde dünya klasikleriyle katettiği sarp yollarda kendini bulma yolculuğudur. George Ovashvili'nin usta gözüyle hayat bulan bu büyüme hikayesi, çocukluğun masumiyetini ve edebiyatın kurtarıcı gücünü Karadeniz'in puslu atmosferinde yeniden keşfediyor.`,
+  },
+  {
+    id: 2,
+    title: "ÖLÜLERİ YAKMA CEMİYETİ",
+    format: "Uzun Metraj Sinema Filmi",
+    genre: "Kara Komedi, Suç, Film Noir",
+    director: "Mahmut Fazıl Coşkun",
+    tagline: "1930'LAR İSTANBUL'UNDA BAUHAUS ÇİZGİLERİ VE BİR CİNAYETİN ANATOMİSİ",
+    description: `Ödüllü yönetmen Mahmut Fazıl Coşkun'un "Türkiye'nin modernleşme deneyimi" üçlemesinin merakla beklenen ikinci halkası olan "Ölüleri Yakma Cemiyeti", izleyiciyi 1930'lar İstanbul'unun absürt ve karanlık dehlizlerine davet ediyor.`,
+    synopsis: `Genç ve idealist mimar Refika Kartal, Almanya'daki eğitiminin ardından Cumhuriyet'in onuncu yılında ülkeye döner ve en büyük hayalini gerçekleştirir: Bauhaus tarzında inşa edilmiş modern bir krematoryum. Ancak "Batılılaşma" hamlelerinin tam ortasında yükselen bu bina, toplumda karşılık bulmakta zorlanır. Gönüllü "ölü" bulunamayan bu projede Refika, mali krizlerin ve toplumsal baskıların arasında sıkışıp kalır.
 
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      }
-    };
+Krematoryumu kurtarmak için giriştiği tehlikeli bir şantaj, Refika'yı beklenmedik bir cinayetin faili haline getirir. 1930'ların İstanbul'unda; ruh çağırma seansları, Balat Canavarı efsanesi, entelektüel kibrin çöküşü ve sürgündeki Troçki'nin gölgesinde ilerleyen film, insan hırsının beyhudeliğini kusursuz bir estetikle anlatıyor. "Anons" filmindeki deadpan mizah anlayışını bu kez dışavurumcu bir görsel dünyayla birleştiren Coşkun, sinemaseverlere eşsiz bir dönem panoraması vadediyor.`,
+  },
+];
 
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
-
-    return () => clearInterval(timer);
-  }, [targetDate]);
-
-  return (
-    <div className="flex items-center justify-center gap-4">
-      {[
-        { value: timeLeft.days, label: "Gün" },
-        { value: timeLeft.hours, label: "Saat" },
-        { value: timeLeft.minutes, label: "Dakika" },
-        { value: timeLeft.seconds, label: "Saniye" },
-      ].map((item, index) => (
-        <div key={item.label} className="text-center">
-          <div className="w-16 h-16 md:w-20 md:h-20 bg-foreground text-background flex items-center justify-center text-2xl md:text-3xl font-bold">
-            {String(item.value).padStart(2, "0")}
-          </div>
-          <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 block">
-            {item.label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// Coming Soon Card Component
-function ComingSoonCard({ project }: { project: any }) {
-  const hasReleaseDate = project.releaseDate && new Date(project.releaseDate) > new Date();
-
+// Project Card Component
+function ProjectCard({ project, index }: { project: any; index: number }) {
   return (
     <div className="group">
-      <div className="relative aspect-video overflow-hidden bg-secondary">
-        {project.teaserImage ? (
-          <img
-            src={project.teaserImage}
-            alt={project.title}
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-secondary via-muted to-secondary">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)`,
+              backgroundSize: "32px 32px",
+            }}
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary to-muted">
-            <Film className="w-16 h-16 text-muted-foreground/50" />
-          </div>
-        )}
+        </div>
+
+        {/* Film Icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Film className="w-24 h-24 text-muted-foreground/20" />
+        </div>
 
         {/* Mystery Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
         {/* Coming Soon Badge */}
         <div className="absolute top-4 left-4">
@@ -89,86 +66,87 @@ function ComingSoonCard({ project }: { project: any }) {
 
         {/* Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h3 className="text-xl md:text-2xl font-bold text-white">
+          <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
             {project.title}
           </h3>
-          {project.description && (
-            <p className="mt-2 text-sm text-white/70 line-clamp-2">
-              {project.description}
-            </p>
-          )}
+          <p className="mt-2 text-sm text-white/80">
+            {project.format || project.genre}
+          </p>
         </div>
       </div>
 
-      {/* Countdown */}
-      {hasReleaseDate && (
-        <div className="mt-6">
-          <CountdownTimer targetDate={new Date(project.releaseDate)} />
+      {/* Project Details */}
+      <div className="mt-8 space-y-6">
+        {/* Tagline */}
+        <div className="border-l-4 border-foreground pl-4">
+          <p className="text-sm font-bold uppercase tracking-wider">
+            {project.tagline}
+          </p>
         </div>
-      )}
+
+        {/* Description */}
+        <p className="text-muted-foreground leading-relaxed">
+          {project.description}
+        </p>
+
+        {/* Credits */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border">
+          {project.director && (
+            <div>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                Yönetmen
+              </span>
+              <p className="mt-1 font-medium">{project.director}</p>
+            </div>
+          )}
+          {project.writer && (
+            <div>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                Senaryo
+              </span>
+              <p className="mt-1 font-medium">{project.writer}</p>
+              {project.source && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {project.source}
+                </p>
+              )}
+            </div>
+          )}
+          {project.platform && (
+            <div>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                Platform
+              </span>
+              <p className="mt-1 font-medium">{project.platform}</p>
+            </div>
+          )}
+          {project.genre && (
+            <div>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                Tür
+              </span>
+              <p className="mt-1 font-medium">{project.genre}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Synopsis */}
+        {project.synopsis && (
+          <div className="pt-6 border-t border-border">
+            <h4 className="text-sm font-bold uppercase tracking-wider mb-3">
+              Sinopsis
+            </h4>
+            <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+              {project.synopsis}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-// Email Signup Form
-function EmailSignupForm() {
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const subscribeMutation = trpc.comingSoon.subscribe.useMutation({
-    onSuccess: () => {
-      setIsSubmitted(true);
-      setEmail("");
-      toast.success("Başarıyla abone oldunuz!");
-    },
-    onError: (error) => {
-      toast.error("Bir hata oluştu. Lütfen tekrar deneyin.");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      subscribeMutation.mutate({ email });
-    }
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className="flex items-center justify-center gap-2 text-foreground">
-        <Check className="w-5 h-5" />
-        <span>Teşekkürler! Haberdar edileceksiniz.</span>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-      <Input
-        type="email"
-        placeholder="E-posta adresiniz"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="flex-1"
-      />
-      <Button type="submit" disabled={subscribeMutation.isPending}>
-        {subscribeMutation.isPending ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <>
-            <Bell className="w-4 h-4 mr-2" />
-            Haberdar Ol
-          </>
-        )}
-      </Button>
-    </form>
-  );
-}
-
 export default function ComingSoon() {
-  const { data: projects, isLoading } = trpc.comingSoon.list.useQuery();
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -182,62 +160,41 @@ export default function ComingSoon() {
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
               Üzerinde çalıştığımız ve yakında sizlerle buluşacak projelerimiz.
-              Gelişmelerden haberdar olmak için e-posta listemize katılın.
+              Her biri, Zenga Yapım'ın sanatsal vizyonunu yansıtan özel yapımlar.
             </p>
           </div>
         </section>
 
-        {/* Projects Grid */}
+        {/* Projects */}
         <section className="py-12 md:py-20">
           <div className="container">
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {[1, 2].map((i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="aspect-video bg-secondary rounded" />
-                    <div className="mt-6 flex justify-center gap-4">
-                      {[1, 2, 3, 4].map((j) => (
-                        <div key={j} className="w-20 h-20 bg-secondary rounded" />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : projects && projects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {projects.map((project: any) => (
-                  <ComingSoonCard key={project.id} project={project} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-20">
-                <Clock className="w-16 h-16 mx-auto text-muted-foreground/50" />
-                <h3 className="mt-4 text-lg font-semibold">
-                  Şu an için yeni proje duyurusu yok
-                </h3>
-                <p className="mt-2 text-muted-foreground">
-                  Yakında yeni projelerimizi burada paylaşacağız.
-                </p>
-              </div>
-            )}
+            <div className="space-y-20 md:space-y-32">
+              {upcomingProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className="animate-fade-in-up opacity-0"
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                >
+                  <ProjectCard project={project} index={index} />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Email Signup Section */}
+        {/* CTA Section */}
         <section className="py-20 md:py-32 bg-foreground text-background">
           <div className="container">
             <div className="max-w-2xl mx-auto text-center">
-              <Bell className="w-12 h-12 mx-auto mb-6 opacity-50" />
+              <Clock className="w-12 h-12 mx-auto mb-6 opacity-50" />
               <h2 className="text-2xl md:text-3xl font-bold">
-                Gelişmelerden Haberdar Olun
+                Daha Fazlası Yolda
               </h2>
               <p className="mt-4 text-background/70">
-                Yeni projelerimiz ve özel içeriklerimizden ilk siz haberdar olun.
-                E-posta listemize katılın.
+                Zenga Yapım olarak, sinema ve edebiyatın gücünü birleştirerek
+                nitelikli içerikler üretmeye devam ediyoruz. Yeni projelerimizden
+                haberdar olmak için bizi takip edin.
               </p>
-              <div className="mt-8">
-                <EmailSignupForm />
-              </div>
             </div>
           </div>
         </section>

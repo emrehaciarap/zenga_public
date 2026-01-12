@@ -229,7 +229,7 @@ Zenga Yapım bugün, Selahattin Yusuf'un kaleme aldığı "Eve Dönemezsin" roma
     { 
       id: 4, 
       year: 2024, 
-      title: "Kuş Bakışı Türkiye", 
+      title: "İnfial", 
       description: "Tarih TV için 110 bölümlük kapsamlı belgesel serisi tamamlandı.", 
       type: "milestone" 
     },
@@ -242,7 +242,7 @@ Zenga Yapım bugün, Selahattin Yusuf'un kaleme aldığı "Eve Dönemezsin" roma
     },
     { 
       id: 6, 
-      year: 2025, 
+      year: 2026, 
       title: "Eve Dönemezsin Dizisi", 
       description: "TRT Tabii platformu için Selahattin Yusuf'un romanından dizi uyarlaması başladı.", 
       type: "milestone" 

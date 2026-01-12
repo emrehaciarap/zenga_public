@@ -276,6 +276,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Contact Info Section */}
+      <section className="py-12 md:py-16 bg-secondary/30 border-y border-border">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <h3 className="text-xl md:text-2xl font-semibold mb-4">İletişim</h3>
+            <p className="text-muted-foreground whitespace-pre-line">
+              Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4
+              Üsküdar / İSTANBUL
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 md:py-32 bg-background">
         <div className="container">
