@@ -230,21 +230,21 @@ Zenga Yapım bugün, Selahattin Yusuf'un kaleme aldığı "Eve Dönemezsin" roma
       id: 4, 
       year: "2023-2024", 
       title: "Birinci Yüzyıl", 
-      description: "50 bölüm belgesel serisi.", 
+      description: "TARİH TV için hazırlanan 50 bölümlük kapsamlı belgesel serisi. Tarihsel olayların derinlemesine incelendiği, görsel açıdan zengin bir yapım.", 
       type: "milestone" 
     },
     { 
       id: 5, 
       year: "2024-2025", 
       title: "Kırılma Anı", 
-      description: "50 bölüm belgesel serisi.", 
+      description: "TARİH TV için üretilen 50 bölümlük belgesel serisi. Türkiye'nin dönüşüm anlarını belgesel diliyle ekranlara taşıyan özel bir yapım.", 
       type: "milestone" 
     },
     { 
       id: 6, 
       year: 2025, 
       title: "Eski Yeni Hayat", 
-      description: "10 bölüm belgesel serisi.", 
+      description: "TARİH TV için hazırlanan 10 bölümlük belgesel serisi. Geçmişten günümüze toplumsal değişimleri anlatıyor.", 
       type: "milestone" 
     },
     { 
@@ -259,6 +259,13 @@ Zenga Yapım bugün, Selahattin Yusuf'un kaleme aldığı "Eve Dönemezsin" roma
       year: 2026, 
       title: "Eve Dönemezsin Dizisi", 
       description: "TRT Tabii platformu için Selahattin Yusuf'un romanından dizi uyarlaması başladı.", 
+      type: "milestone" 
+    },
+    { 
+      id: 9, 
+      year: 2026, 
+      title: "Ölüleri Yakma Cemiyeti", 
+      description: "Mahmut Fazıl Coşkun'un yönettiği uzun metraj sinema filmi. 1930'lar İstanbul'unda geçen kara komedi.", 
       type: "milestone" 
     },
   ];
