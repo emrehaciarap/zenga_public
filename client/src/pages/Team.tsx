@@ -45,7 +45,7 @@ Seçilmiş Filmografi: Uzak İhtimal (2009) - Rotterdam Film Festivali Kaplan Ö
     shortBio: "1974 yılında Trabzon'da doğan Selahattin Yusuf, 2023 Necip Fazıl Roman Ödülü sahibi, Türk edebiyatının önemli isimlerinden.",
     fullBio: `1974 yılında Trabzon'da doğan Selahattin Yusuf, Türkiye'nin en köklü okullarından biri olan Ankara Üniversitesi Siyasal Bilgiler Fakültesi'nden (Mülkiye) mezun olmuştur. Kariyeri boyunca serbest yazarlık ve televizyon yorumculuğu yapan Yusuf, özellikle roman ve öykü türünde Türk edebiyatına özgün eserler kazandırmıştır.
 
-Edebiyat dünyasındaki yetkinliğini 2023 yılında prestijli Necip Fazıl Roman Ödülü ile taçlandıran Selahattin Yusuf, ödülünü Cumhurbaşkanı Sayın Recep Tayyip Erdoğan'ın elinden almıştır. Zenga Yapım bünyesinde edebi derinliği sinematografik vizyonla birleştiren Yusuf, halen roman çalışmalarına ve dizi/film senaryo projelerine odaklanmaktadır.
+Edebiyat dünyasındaki yetkinliğini 2023 yılında prestijli Necip Fazıl Roman Ödülü ile taçlandırdı. Zenga Yapım bünyesinde edebi derinliği sinematografik vizyonla birleştiren Yusuf, halen roman çalışmalarına ve dizi/film senaryo projelerine odaklanmaktadır.
 
 TRT Tabii platformu için hazırlanan "Eve Dönemezsin" dizisi, kendi romanından uyarlanmaktadır.`,
     imdbUrl: null,
