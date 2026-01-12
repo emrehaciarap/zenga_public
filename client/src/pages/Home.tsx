@@ -204,8 +204,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Projects Section */}
-      <section className="py-20 md:py-32 bg-background">
+      {/* Featured Projects Section - OFFLINE (ileride kullanılabilir) */}
+      {/* <section className="py-20 md:py-32 bg-background">
         <div className="container">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
             <div>
@@ -250,7 +250,7 @@ export default function Home() {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* Stats Section */}
       <section className="py-20 md:py-32 bg-foreground text-background">
