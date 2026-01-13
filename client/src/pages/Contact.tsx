@@ -42,21 +42,40 @@ export default function Contact() {
       });
       toast.success("Mesajınız başarıyla gönderildi!");
     },
-    onError: (error) => {
-      toast.error("Bir hata oluştu. Lütfen tekrar deneyin.");
+    onError: (error: any) => {
+      console.error("Form gönderim hatası:", error);
+      const errorMessage = error?.message || "Bir hata oluştu. Lütfen tekrar deneyin.";
+      toast.error(errorMessage);
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
+    
+    // Validasyon
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Lütfen zorunlu alanları doldurun.");
+      return;
+    }
+
+    // Email format kontrolü
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Geçerli bir e-posta adresi girin.");
+      return;
+    }
+
+    try {
       sendMessageMutation.mutate({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone || undefined,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone?.trim() || undefined,
         projectType: formData.projectType || undefined,
-        message: formData.message,
+        message: formData.message.trim(),
       });
+    } catch (error) {
+      console.error("Form gönderim hatası:", error);
+      toast.error("Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.");
     }
   };
 
@@ -71,8 +90,8 @@ export default function Contact() {
     phone: "+90 551 163 35 52",
     email: "info@zengafilm.com.tr", // Görünen email
     formEmail: "mahmutislam@gmail.com", // Form'un gideceği email
-    mapLat: "41.0214",
-    mapLng: "29.0270",
+    mapLat: "41.035873",
+    mapLng: "29.029750",
   };
 
   const displayInfo = contactInfo || zengaContactInfo;
