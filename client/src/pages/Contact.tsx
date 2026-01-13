@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Send, Loader2, Check, Facebook, Instagram, Twitter, Youtube, Linkedin } from "lucide-react";
+import { MapPin, Phone, Mail, Send, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { trpc } from "@/lib/trpc";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
@@ -23,33 +22,22 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    projectType: "" as "film" | "reklam" | "belgesel" | "muzik_video" | "diger" | "",
+    projectType: "",
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data: contactInfo } = trpc.contact.info.useQuery();
+  // Zenga İletişim Bilgileri
+  const contactInfo = {
+    address: "Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4\nÜsküdar / İSTANBUL",
+    phone: "+90 551 163 35 52",
+    email: "info@zengafilm.com.tr",
+    mapLat: "41.035873",
+    mapLng: "29.029750",
+  };
 
-  const sendMessageMutation = trpc.contact.sendMessage.useMutation({
-    onSuccess: () => {
-      setIsSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        projectType: "",
-        message: "",
-      });
-      toast.success("Mesajınız başarıyla gönderildi!");
-    },
-    onError: (error: any) => {
-      console.error("Form gönderim hatası:", error);
-      const errorMessage = error?.message || "Bir hata oluştu. Lütfen tekrar deneyin.";
-      toast.error(errorMessage);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validasyon
@@ -65,17 +53,44 @@ export default function Contact() {
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      sendMessageMutation.mutate({
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        phone: formData.phone?.trim() || undefined,
-        projectType: formData.projectType || undefined,
-        message: formData.message.trim(),
-      });
+      // Basit mailto: alternatifi - EmailJS yerine
+      const subject = `Zenga İletişim Formu - ${formData.projectType ? projectTypes.find(t => t.value === formData.projectType)?.label : 'Genel'}`;
+      const body = `
+Ad Soyad: ${formData.name}
+E-posta: ${formData.email}
+Telefon: ${formData.phone || 'Belirtilmedi'}
+Proje Türü: ${formData.projectType ? projectTypes.find(t => t.value === formData.projectType)?.label : 'Belirtilmedi'}
+
+Mesaj:
+${formData.message}
+      `.trim();
+
+      // Mailto link oluştur
+      const mailtoLink = `mailto:mahmutislam@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // Mail istemcisini aç
+      window.location.href = mailtoLink;
+
+      // Başarı mesajı
+      setTimeout(() => {
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          projectType: "",
+          message: "",
+        });
+        toast.success("Mail istemciniz açıldı. Mesajınızı göndermek için lütfen gönder butonuna tıklayın.");
+        setIsLoading(false);
+      }, 500);
     } catch (error) {
       console.error("Form gönderim hatası:", error);
-      toast.error("Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.");
+      toast.error("Bir hata oluştu. Lütfen doğrudan info@zengafilm.com.tr adresine mail atın.");
+      setIsLoading(false);
     }
   };
 
@@ -84,28 +99,8 @@ export default function Contact() {
     if (isSubmitted) setIsSubmitted(false);
   };
 
-  // Zenga İletişim Bilgileri
-  const zengaContactInfo = {
-    address: "Kuzguncuk Mah. İcadiye Cad. Bina No:18 Daire:4\nÜsküdar / İSTANBUL",
-    phone: "+90 551 163 35 52",
-    email: "info@zengafilm.com.tr", // Görünen email
-    formEmail: "mahmutislam@gmail.com", // Form'un gideceği email
-    mapLat: "41.035873",
-    mapLng: "29.029750",
-  };
-
-  const displayInfo = contactInfo || zengaContactInfo;
-
-  const socialLinks = [
-    { icon: Facebook, href: contactInfo?.facebook, label: "Facebook" },
-    { icon: Instagram, href: contactInfo?.instagram, label: "Instagram" },
-    { icon: Twitter, href: contactInfo?.twitter, label: "Twitter" },
-    { icon: Youtube, href: contactInfo?.youtube, label: "YouTube" },
-    { icon: Linkedin, href: contactInfo?.linkedin, label: "LinkedIn" },
-  ].filter((link) => link.href);
-
   // Google Maps Embed URL - Kuzguncuk, Üsküdar coordinates
-  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.2!2d${displayInfo.mapLng}!3d${displayInfo.mapLat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAxJzE3LjAiTiAyOcKwMDEnMzcuMiJF!5e0!3m2!1str!2str!4v1234567890`;
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.2!2d${contactInfo.mapLng}!3d${contactInfo.mapLat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAxJzE3LjAiTiAyOcKwMDEnMzcuMiJF!5e0!3m2!1str!2str!4v1234567890`;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -136,9 +131,9 @@ export default function Contact() {
                 {isSubmitted ? (
                   <div className="p-8 border border-border bg-secondary text-center">
                     <Check className="w-12 h-12 mx-auto text-foreground mb-4" />
-                    <h3 className="text-lg font-semibold">Mesajınız Alındı</h3>
+                    <h3 className="text-lg font-semibold">Mail İstemciniz Açıldı</h3>
                     <p className="mt-2 text-muted-foreground">
-                      En kısa sürede size dönüş yapacağız.
+                      Mesajınızı göndermek için lütfen mail istemcinizde "Gönder" butonuna tıklayın.
                     </p>
                     <Button
                       variant="outline"
@@ -221,9 +216,9 @@ export default function Contact() {
                       type="submit"
                       size="lg"
                       className="w-full sm:w-auto"
-                      disabled={sendMessageMutation.isPending}
+                      disabled={isLoading}
                     >
-                      {sendMessageMutation.isPending ? (
+                      {isLoading ? (
                         <>
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                           Gönderiliyor...
@@ -252,67 +247,42 @@ export default function Contact() {
                     <div>
                       <h4 className="font-semibold">Adres</h4>
                       <p className="text-muted-foreground mt-1 whitespace-pre-line">
-                        {displayInfo.address}
+                        {contactInfo.address}
                       </p>
                     </div>
                   </div>
 
                   {/* Phone */}
-                  {displayInfo.phone && (
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
-                        <Phone className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Telefon</h4>
-                        <a
-                          href={`tel:${displayInfo.phone}`}
-                          className="text-muted-foreground mt-1 hover:text-foreground transition-colors"
-                        >
-                          {displayInfo.phone}
-                        </a>
-                      </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
+                      <Phone className="w-5 h-5" />
                     </div>
-                  )}
+                    <div>
+                      <h4 className="font-semibold">Telefon</h4>
+                      <a
+                        href={`tel:${contactInfo.phone}`}
+                        className="text-muted-foreground mt-1 hover:text-foreground transition-colors"
+                      >
+                        {contactInfo.phone}
+                      </a>
+                    </div>
+                  </div>
 
                   {/* Email */}
-                  {displayInfo.email && (
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
-                        <Mail className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">E-posta</h4>
-                        <a
-                          href={`mailto:${displayInfo.email}`}
-                          className="text-muted-foreground mt-1 hover:text-foreground transition-colors"
-                        >
-                          {displayInfo.email}
-                        </a>
-                      </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center bg-secondary flex-shrink-0">
+                      <Mail className="w-5 h-5" />
                     </div>
-                  )}
-
-                  {/* Social Links */}
-                  {socialLinks.length > 0 && (
-                    <div className="pt-4 border-t border-border">
-                      <h4 className="font-semibold mb-4">Sosyal Medya</h4>
-                      <div className="flex items-center gap-3">
-                        {socialLinks.map((social) => (
-                          <a
-                            key={social.label}
-                            href={social.href!}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-10 h-10 flex items-center justify-center bg-secondary hover:bg-foreground hover:text-background transition-colors"
-                            aria-label={social.label}
-                          >
-                            <social.icon className="w-5 h-5" />
-                          </a>
-                        ))}
-                      </div>
+                    <div>
+                      <h4 className="font-semibold">E-posta</h4>
+                      <a
+                        href={`mailto:${contactInfo.email}`}
+                        className="text-muted-foreground mt-1 hover:text-foreground transition-colors"
+                      >
+                        {contactInfo.email}
+                      </a>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 {/* Map */}
